@@ -1,0 +1,18 @@
+﻿@using SampleApplication.Models;
+@model UserData
+@{
+    Layout = null;
+}
+
+<h2>@ViewBag.message</h2>
+@using (Html.BeginForm("Index","Login",FormMethod.Post))
+{
+   
+    @Html.Label("username");
+    @Html.TextBoxFor(m => m.username);
+<br />
+    @Html.Label("password");
+    @Html.TextBoxFor(m => m.password);
+    <input type="submit" value="Login"/>
+}
+
