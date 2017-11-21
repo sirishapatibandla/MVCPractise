@@ -20,7 +20,7 @@ namespace SampleApplication.Controllers
                 return View("result", user);
             }
             ViewBag.message = "UserName or Password are incorrect";
-            return View(ViewBag.message);
+            return View("Index");
         }
     }
 }
