@@ -14,6 +14,32 @@
           <Property Name="state" Type="varchar" MaxLength="10" />
           <Property Name="city" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cityname" Type="varchar" MaxLength="10" />
+          <Property Name="value" Type="int" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="10" />
+          <Property Name="Value" Type="int" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Statename" Type="varchar" MaxLength="30" />
+          <Property Name="value" Type="int" />
+          <Property Name="countryId" Type="int" />
+        </EntityType>
         <EntityType Name="UserData">
           <Key>
             <PropertyRef Name="username" />
@@ -21,9 +47,44 @@
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK__city__StateID__66603565">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="city" Type="Self.city" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="city">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__State__countryId__5EBF139D">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="State" Type="Self.State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="countryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MVCPractiseModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="city" EntityType="Self.city" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserData" EntityType="Self.UserData" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__city__StateID__66603565" Association="Self.FK__city__StateID__66603565">
+            <End Role="State" EntitySet="State" />
+            <End Role="city" EntitySet="city" />
+          </AssociationSet>
+          <AssociationSet Name="FK__State__countryId__5EBF139D" Association="Self.FK__State__countryId__5EBF139D">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="State" EntitySet="State" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -39,6 +100,36 @@
           <Property Name="state" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="city" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cityname" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="value" Type="Int32" />
+          <Property Name="StateID" Type="Int32" />
+          <NavigationProperty Name="State" Relationship="Self.FK__city__StateID__66603565" FromRole="city" ToRole="State" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Value" Type="Int32" />
+          <NavigationProperty Name="States" Relationship="Self.FK__State__countryId__5EBF139D" FromRole="Country" ToRole="State" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Statename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="value" Type="Int32" />
+          <Property Name="countryId" Type="Int32" />
+          <NavigationProperty Name="cities" Relationship="Self.FK__city__StateID__66603565" FromRole="State" ToRole="city" />
+          <NavigationProperty Name="Country" Relationship="Self.FK__State__countryId__5EBF139D" FromRole="State" ToRole="Country" />
+        </EntityType>
         <EntityType Name="UserData">
           <Key>
             <PropertyRef Name="username" />
@@ -46,16 +137,51 @@
           <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="MVCPractiseEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK__city__StateID__66603565">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="city" Type="Self.city" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="city">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__State__countryId__5EBF139D">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="State" Type="Self.State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="countryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MVCPractiseEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="cities" EntityType="Self.city" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="States" EntityType="Self.State" />
           <EntitySet Name="UserDatas" EntityType="Self.UserData" />
+          <AssociationSet Name="FK__city__StateID__66603565" Association="Self.FK__city__StateID__66603565">
+            <End Role="State" EntitySet="States" />
+            <End Role="city" EntitySet="cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__State__countryId__5EBF139D" Association="Self.FK__State__countryId__5EBF139D">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="State" EntitySet="States" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MVCPractiseModelStoreContainer" CdmEntityContainer="MVCPractiseEntities">
+        <EntityContainerMapping StorageEntityContainer="MVCPractiseModelStoreContainer" CdmEntityContainer="MVCPractiseEntities1">
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="MVCPractiseModel.Address">
               <MappingFragment StoreEntitySet="Address">
@@ -63,6 +189,35 @@
                 <ScalarProperty Name="country" ColumnName="country" />
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="city" ColumnName="city" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cities">
+            <EntityTypeMapping TypeName="MVCPractiseModel.city">
+              <MappingFragment StoreEntitySet="city">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Cityname" ColumnName="Cityname" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="MVCPractiseModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="MVCPractiseModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Statename" ColumnName="Statename" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="countryId" ColumnName="countryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

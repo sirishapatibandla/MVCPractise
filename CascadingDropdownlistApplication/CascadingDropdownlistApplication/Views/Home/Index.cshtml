@@ -1,5 +1,5 @@
 ﻿@using CascadingDropdownlistApplication.Models;
-@model Address
+@model ViewModel
 
 
 <h2>Index</h2>
@@ -8,19 +8,15 @@
     <table>
         <tr>
             <td>
-               @Html.DropDownListFor(m=>m.country,new List<SelectListItem>() { new SelectListItem() { Text="Select Country",Value="0",Selected=true}, new SelectListItem() { Text="India",Value="1"} ,new SelectListItem() { Text="USA",Value="2"} },new { id="ddcountry"})
+               @Html.DropDownListFor(m=>m.AddressProperty.country, new SelectList(Model.CountryProperty,"Value","CountryName"), new { id="ddcountry"})
             </td>
         </tr>
         <tr>
             <td>
-                @if (ViewBag.states == null)
-                {
-                    @Html.DropDownListFor(m => m.state, new List<SelectListItem>() { new SelectListItem { Text = "Select State", Value = "0", Selected = true } }, new { id = "ddstate" })
-                }
-                else
-                {
-                    @Html.DropDownListFor(m => m.state, (List<SelectListItem>)ViewBag.states, new { id = "ddstate1" })
-                }
+              
+                    @Html.DropDownListFor( m=>m.AddressProperty.state, new List<SelectListItem>() { new SelectListItem { Text = "Select State", Value = "0", Selected = true } }, new { id = "ddstate" })
+                
+               
             </td>
         </tr>
         <tr>
@@ -60,9 +56,9 @@
                        $.each(result, function (index, itemdata) {
                            $('#ddstate').append($('<option/>', {
 
-                               value: itemdata.Value,
+                               value: itemdata.value,
 
-                               text: itemdata.Text
+                               text: itemdata.Statename
 
                            }));
                        });

@@ -31,7 +31,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Statename" Type="varchar" MaxLength="30" />
+    <Property Name="Statename" Type="varchar" MaxLength="10" />
     <Property Name="value" Type="int" />
     <Property Name="countryId" Type="int" />
   </EntityType>
@@ -42,7 +42,7 @@
     <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="password" Type="varchar" MaxLength="50" />
   </EntityType>
-  <Association Name="FK__city__StateID__66603565">
+  <Association Name="FK__city__StateID__619B8048">
     <End Role="State" Type="Self.State" Multiplicity="0..1" />
     <End Role="city" Type="Self.city" Multiplicity="*" />
     <ReferentialConstraint>
@@ -72,7 +72,7 @@
     <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserData" EntityType="Self.UserData" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__city__StateID__66603565" Association="Self.FK__city__StateID__66603565">
+    <AssociationSet Name="FK__city__StateID__619B8048" Association="Self.FK__city__StateID__619B8048">
       <End Role="State" EntitySet="State" />
       <End Role="city" EntitySet="city" />
     </AssociationSet>

@@ -13,10 +13,10 @@ namespace CascadingDropdownlistApplication.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MVCPractiseEntities : DbContext
+    public partial class MVCPractiseEntities1 : DbContext
     {
-        public MVCPractiseEntities()
-            : base("name=MVCPractiseEntities")
+        public MVCPractiseEntities1()
+            : base("name=MVCPractiseEntities1")
         {
         }
     
@@ -26,6 +26,9 @@ namespace CascadingDropdownlistApplication.Models
         }
     
         public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<city> cities { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<State> States { get; set; }
         public virtual DbSet<UserData> UserDatas { get; set; }
     }
 }
