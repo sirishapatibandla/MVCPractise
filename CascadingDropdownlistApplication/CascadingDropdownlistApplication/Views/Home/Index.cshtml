@@ -1,0 +1,75 @@
+﻿@using CascadingDropdownlistApplication.Models;
+@model ViewModel
+
+
+<h2>Index</h2>
+@using (Html.BeginForm("Index","Home",FormMethod.Post))
+{ 
+    <table>
+        <tr>
+            <td>
+               @Html.DropDownListFor(m=>m.AddressProperty.country, new SelectList(Model.CountryProperty,"Value","CountryName"), new { id="ddcountry"})
+            </td>
+        </tr>
+        <tr>
+            <td>
+              
+                    @Html.DropDownListFor( m=>m.AddressProperty.state, new List<SelectListItem>() { new SelectListItem { Text = "Select State", Value = "0", Selected = true } }, new { id = "ddstate" })
+                
+               
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+       $(document).ready(function () {
+          // alert("document is ready");
+           $('#ddcountry').change(function () {
+               debugger;
+               var countryval = $('select[id=ddcountry]').val();
+               alert(countryval);
+               $.ajax({
+                   type: "POST",
+                   data:{'countryId':countryval},
+                   url: "/Home/BindStates",
+                   dataType: 'json',
+                   contenttype: "application/json; charset=utf-8",
+                   success: function (result) {
+                       debugger;
+                       $('#ddstate'). empty();
+
+                       $('#ddstate').append($('<option/>', {
+
+                           value: 0,
+
+                           text: "Select a State"
+
+                       }));
+                       $.each(result, function (index, itemdata) {
+                           $('#ddstate').append($('<option/>', {
+
+                               value: itemdata.value,
+
+                               text: itemdata.Statename
+
+                           }));
+                       });
+                           
+          
+                   },
+                   error:function(error){
+                       alert('failure');
+               }
+               });
+           });
+       });
+   </script>
+

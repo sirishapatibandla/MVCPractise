@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MVCPractiseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="country" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="state" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="UserData">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="MVCPractiseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="Self.Address" />
+    <EntitySet Name="UserDatas" EntityType="Self.UserData" />
+    <EntitySet Name="cities" EntityType="MVCPractiseModel.city" />
+    <EntitySet Name="Countries" EntityType="MVCPractiseModel.Country" />
+    <EntitySet Name="States" EntityType="MVCPractiseModel.State" />
+    <AssociationSet Name="FK__city__StateID__619B8048" Association="MVCPractiseModel.FK__city__StateID__619B8048">
+      <End Role="State" EntitySet="States" />
+      <End Role="city" EntitySet="cities" />
+    </AssociationSet>
+    <AssociationSet Name="FK__State__countryId__5EBF139D" Association="MVCPractiseModel.FK__State__countryId__5EBF139D">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="State" EntitySet="States" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="city">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cityname" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="value" Type="Int32" />
+    <Property Name="StateID" Type="Int32" />
+    <NavigationProperty Name="State" Relationship="MVCPractiseModel.FK__city__StateID__619B8048" FromRole="city" ToRole="State" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Value" Type="Int32" />
+    <NavigationProperty Name="States" Relationship="MVCPractiseModel.FK__State__countryId__5EBF139D" FromRole="Country" ToRole="State" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Statename" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="value" Type="Int32" />
+    <Property Name="countryId" Type="Int32" />
+    <NavigationProperty Name="cities" Relationship="MVCPractiseModel.FK__city__StateID__619B8048" FromRole="State" ToRole="city" />
+    <NavigationProperty Name="Country" Relationship="MVCPractiseModel.FK__State__countryId__5EBF139D" FromRole="State" ToRole="Country" />
+  </EntityType>
+  <Association Name="FK__city__StateID__619B8048">
+    <End Type="MVCPractiseModel.State" Role="State" Multiplicity="0..1" />
+    <End Type="MVCPractiseModel.city" Role="city" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="State">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="city">
+        <PropertyRef Name="StateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__State__countryId__5EBF139D">
+    <End Type="MVCPractiseModel.Country" Role="Country" Multiplicity="0..1" />
+    <End Type="MVCPractiseModel.State" Role="State" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="State">
+        <PropertyRef Name="countryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
